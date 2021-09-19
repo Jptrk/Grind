@@ -31,12 +31,22 @@ const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
 const lastWeek = `${currentYear}-${currentMonth}-${
   currentDay - 7 <= 0 ? 1 : currentDay - 7
 }`;
-
-const lastYear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
+// const lastYear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
 
 //Popular Games
-const popular_games = `dates=${lastWeek},${currentDate}&ordering=-metacritic&page_size=8`;
+const popular_games = `dates=${lastWeek},${currentDate}&ordering=-popular&page_size=8`;
 
 export const popularGamesURL = () => {
   return `${base_url}/games?${api_key}&${popular_games}`;
+};
+
+// All games
+export const allGamesURL = (page, sort) => {
+  const all_games = `dates=2000-01-01,${currentDate}&ordering=-${sort}&page_size=18&page=${page}`;
+  return `${base_url}/games?${api_key}&${all_games}`;
+};
+
+// Get genre list
+export const genreListURL = () => {
+  return `${base_url}/genres?${api_key}`;
 };

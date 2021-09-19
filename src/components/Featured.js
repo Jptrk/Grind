@@ -1,24 +1,25 @@
 //Libraries
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-
-// import { useSpring, animated } from "@react-spring/web";
-// import { useDrag } from "react-use-gesture";
+import { motion } from "framer-motion";
+import Rating from "./Ratings";
 
 const Featured = ({ featuredGames }) => {
-  //   States
+  // States
   const [featured, setFeatured] = useState([]);
 
   // Carousel
   const [active, setActive] = useState(1);
   const [tran, setTran] = useState(true);
   const [disable, setDisable] = useState(false);
+  const [touch, setTouch] = useState({ start: 0, end: 0, drag: false });
 
   // Responsive Image
   const [imageSize, setImageSize] = useState(1200);
 
-  //   Use Effect
+  const interval = useRef();
 
+  // Use Effect
   useEffect(() => {
     setFeatured(featuredGames);
   }, [featuredGames]);
@@ -82,9 +83,17 @@ const Featured = ({ featuredGames }) => {
         setImageSize(window.innerWidth - 40);
       }
     });
+
+    autoplay();
+    return () => clearInterval(interval.current);
   }, []);
 
   //   Handlers
+  const autoplay = () => {
+    interval.current = setInterval(() => {
+      setActive((prev) => prev + 1);
+    }, 5000);
+  };
   const nextImage = () => {
     if (active < featured.length + 1) {
       setActive((prev) => prev + 1);
@@ -97,6 +106,10 @@ const Featured = ({ featuredGames }) => {
     } else {
       setActive(1);
     }
+
+    // Clear interval
+    clearInterval(interval.current);
+    autoplay();
   };
 
   const prevImage = () => {
@@ -111,6 +124,10 @@ const Featured = ({ featuredGames }) => {
     } else {
       setActive(3);
     }
+
+    // Clear interval
+    clearInterval(interval.current);
+    autoplay();
   };
 
   const carouselNav = () => {
@@ -128,12 +145,41 @@ const Featured = ({ featuredGames }) => {
     return item;
   };
 
+  const dragStart = (e) => {
+    setTouch((prev) => ({ ...prev, start: e.clientX, drag: true }));
+  };
+  const dragEnd = (e) => {
+    setTouch((prev) => ({ ...prev, drag: false }));
+    if (touch.start - e.clientX > window.innerWidth / 3) {
+      if (e.clientX !== 0) {
+        if (touch.start > e.clientX) {
+          nextImage();
+        }
+      }
+    }
+
+    if (touch.start - e.clientX < -window.innerWidth / 3) {
+      if (e.clientX > 0) {
+        if (touch.start < e.clientX) {
+          prevImage();
+        }
+      }
+    }
+  };
+
   return (
     <>
       {featured.length !== 0 && (
         <Main>
           <h1>FEATURED AND POPULAR</h1>
-          <Carousel style={{ width: imageSize + 20 + "px" }}>
+          <Carousel
+            style={{ width: imageSize + 20 + "px" }}
+            drag="x"
+            dragElastic={1}
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragStart={(e) => dragStart(e)}
+            onDragEnd={(e) => dragEnd(e)}
+          >
             <Slider
               style={{
                 transform: `translateX(-${
@@ -180,7 +226,10 @@ const Featured = ({ featuredGames }) => {
                     style={{ width: `${imageSize}px` }}
                   />
 
-                  <CardDetails>
+                  <CardDetails
+                    style={window.innerWidth <= 768 ? { opacity: 1 } : {}}
+                    className="cardDetails"
+                  >
                     <div className="details">
                       <h1>{game.name}</h1>
                     </div>
@@ -188,6 +237,9 @@ const Featured = ({ featuredGames }) => {
                       {game.genres.map((genre) => (
                         <p key={genre.name}>{genre.name}</p>
                       ))}
+                    </div>
+                    <div className="rating">
+                      <Rating game={game.rating} />
                     </div>
                   </CardDetails>
                 </Card>
@@ -222,7 +274,13 @@ const Featured = ({ featuredGames }) => {
                 </CardDetails>
               </Card>
             </Slider>
-            <Controls style={{ width: imageSize + 170 + "px" }}>
+          </Carousel>
+          {!touch.drag && (
+            <Controls
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{ width: imageSize + 170 + "px" }}
+            >
               <Prev disabled={disable} onClick={prevImage}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +340,7 @@ const Featured = ({ featuredGames }) => {
                 </svg>
               </Next>
             </Controls>
-          </Carousel>
+          )}
           <Nav>{carouselNav()}</Nav>
         </Main>
       )}
@@ -291,9 +349,13 @@ const Featured = ({ featuredGames }) => {
 };
 
 const Main = styled.div`
-  margin: 60px auto;
+  padding-top: 60px;
+  padding-bottom: 45px;
   overflow-x: hidden;
+  position: relative;
 
+  background-color: #171717;
+  border-bottom: 1px solid #1d1d1d;
   h1 {
     width: 1200px;
     margin: auto auto 20px auto;
@@ -308,8 +370,9 @@ const Main = styled.div`
   }
 `;
 
-const Carousel = styled.div`
+const Carousel = styled(motion.div)`
   position: relative;
+  cursor: grab;
   margin: auto;
 `;
 
@@ -329,10 +392,11 @@ const Slider = styled.div`
   img {
     opacity: 100%;
     max-width: 1200px;
-    min-height: 350px;
+    min-height: 300px;
     height: 515px;
     object-fit: cover;
     border-radius: 3px;
+    pointer-events: none;
   }
 `;
 
@@ -345,7 +409,6 @@ const Next = styled.button`
   justify-content: end;
   align-items: center;
   pointer-events: all;
-  cursor: pointer;
 `;
 const Prev = styled.button`
   background-color: transparent;
@@ -356,9 +419,8 @@ const Prev = styled.button`
   justify-content: start;
   align-items: center;
   pointer-events: all;
-  cursor: pointer;
 `;
-const Controls = styled.div`
+const Controls = styled(motion.div)`
   position: absolute;
   top: 0;
   left: 50%;
@@ -387,8 +449,19 @@ const Nav = styled.div`
     height: 15px;
   }
 
-  @media (max-width: 500px) {
-    display: none;
+  @media (max-width: 768px) {
+    padding: 0 20px;
+
+    .line {
+      margin: 0 10px;
+      width: 5px;
+      height: 5px;
+    }
+
+    .active {
+      width: 10px;
+      height: 10px;
+    }
   }
 
   .line {
@@ -399,59 +472,54 @@ const Nav = styled.div`
     margin: 0 20px;
     transition: 100ms ease-in;
 
-    @media (max-width: 1100px) {
-      height: 7px;
-      width: 7px;
+    @media (max-width: 768px) {
+      margin: 0 15px;
+      width: 5px;
+      height: 5px;
     }
   }
+
   .active {
     background-color: #ff003b;
     height: 5px;
-    width: 50px;
+    width: 60px;
 
-    @media (max-width: 1100px) {
-      height: 15px;
-      width: 15px;
+    @media (max-width: 768px) {
+      width: 10px;
+      height: 10px;
     }
   }
 `;
 
 const CardDetails = styled.div`
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-image: linear-gradient(rgba(255, 0, 0, 0), rgba(0, 0, 0, 0.7) 70%);
-
-  padding: 40px;
-  display: flex;
-  align-items: flex-end;
-
+  /* height: 100%; */
+  height: fit-content;
+  /* background-image: linear-gradient(rgba(255, 0, 0, 0), rgba(0, 0, 0, 0.7) 70%); */
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 25px 25px;
   transition: 500ms ease;
   opacity: 0;
-  border-radius: 3px;
-  cursor: pointer;
-
-  h1 {
-    font-size: 20px;
-    padding: 0;
-    margin-bottom: 5px;
-  }
-
-  opacity: 0;
-  &:hover {
-    opacity: 1;
-  }
 
   display: flex;
   align-items: baseline;
   flex-direction: column;
   justify-content: end;
 
+  h1 {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0;
+    margin-bottom: 5px;
+  }
+
   .genre {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 5px;
     p {
       font-size: 14px;
       margin: 0 10px 0 0;
@@ -459,10 +527,10 @@ const CardDetails = styled.div`
       font-weight: 500;
       line-height: 1.5rem;
     }
-  }
 
-  @media (max-width: 768px) {
-    padding: 40px 20px;
+    .active {
+      opacity: 1;
+    }
   }
 `;
 
@@ -472,6 +540,10 @@ const Card = styled.div`
   max-height: 515px;
   border-radius: 3px;
   opacity: 10%;
+
+  &:hover .cardDetails {
+    opacity: 1;
+  }
 `;
 
 export default Featured;

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 //Components
 import Nav from "../components/Nav";
 import Featured from "../components/Featured";
+import Games from "../components/Games";
 
 const Home = () => {
   const { featuredGames } = useSelector((state) => state.games);
@@ -13,6 +14,7 @@ const Home = () => {
     <Main>
       <Nav />
       <Featured featuredGames={featuredGames} />
+      <Games />
     </Main>
   );
 };

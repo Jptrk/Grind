@@ -16,8 +16,11 @@
 body {
   font-family: roboto;
   font-size: 16px;
-  background-color: #191919;
   overflow-x: hidden;
+
+  background-image: url("../Assets/BG.svg");
+  background-repeat: repeat;
+  background-color: rgba(25, 25, 25, 1);
 }
 
 h1 {
