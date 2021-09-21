@@ -2,6 +2,13 @@ import axios from "axios";
 import { popularGamesURL } from "../api";
 
 export const loadFeatured = () => async (dispatch) => {
+  dispatch({
+    type: "IS_LOADING",
+    payload: {
+      isLoading: true,
+    },
+  });
+
   //Fetch
   const featuredData = await axios.get(popularGamesURL());
   const featuredList = featuredData.data.results;

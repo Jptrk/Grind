@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import Rating from "./Ratings";
+import { Link } from "react-router-dom";
 
 const Featured = ({ featuredGames }) => {
   // States
@@ -70,30 +71,34 @@ const Featured = ({ featuredGames }) => {
       setImageSize(window.innerWidth - 40);
     }
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth <= 1366) {
-        setImageSize(window.innerWidth - 250);
-      } else {
-        setImageSize(1200);
-      }
-      if (window.innerWidth <= 768) {
-        setImageSize(window.innerWidth - 80);
-      }
-      if (window.innerWidth <= 425) {
-        setImageSize(window.innerWidth - 40);
-      }
-    });
+    window.addEventListener("resize", windowResize);
 
-    autoplay();
-    return () => clearInterval(interval.current);
-  }, []);
-
-  //   Handlers
-  const autoplay = () => {
     interval.current = setInterval(() => {
       setActive((prev) => prev + 1);
     }, 5000);
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", windowResize);
+      clearInterval(interval.current);
+    };
+  }, []);
+
+  //   Handlers
+  const windowResize = () => {
+    if (window.innerWidth <= 1366) {
+      setImageSize(window.innerWidth - 250);
+    } else {
+      setImageSize(1200);
+    }
+    if (window.innerWidth <= 768) {
+      setImageSize(window.innerWidth - 80);
+    }
+    if (window.innerWidth <= 425) {
+      setImageSize(window.innerWidth - 40);
+    }
   };
+
   const nextImage = () => {
     if (active < featured.length + 1) {
       setActive((prev) => prev + 1);
@@ -109,7 +114,9 @@ const Featured = ({ featuredGames }) => {
 
     // Clear interval
     clearInterval(interval.current);
-    autoplay();
+    interval.current = setInterval(() => {
+      setActive((prev) => prev + 1);
+    }, 5000);
   };
 
   const prevImage = () => {
@@ -127,7 +134,9 @@ const Featured = ({ featuredGames }) => {
 
     // Clear interval
     clearInterval(interval.current);
-    autoplay();
+    interval.current = setInterval(() => {
+      setActive((prev) => prev + 1);
+    }, 5000);
   };
 
   const carouselNav = () => {
@@ -171,7 +180,7 @@ const Featured = ({ featuredGames }) => {
     <>
       {featured.length !== 0 && (
         <Main>
-          <h1>FEATURED AND POPULAR</h1>
+          <h1>FEATURED</h1>
           <Carousel
             style={{ width: imageSize + 20 + "px" }}
             drag="x"
@@ -231,7 +240,9 @@ const Featured = ({ featuredGames }) => {
                     className="cardDetails"
                   >
                     <div className="details">
-                      <h1>{game.name}</h1>
+                      <h1>
+                        <Link to={`/game/${game.id}`}>{game.name}</Link>
+                      </h1>
                     </div>
                     <div className="genre">
                       {game.genres.map((genre) => (
@@ -239,7 +250,7 @@ const Featured = ({ featuredGames }) => {
                       ))}
                     </div>
                     <div className="rating">
-                      <Rating game={game.rating} />
+                      <Rating game={game.rating} size={15} />
                     </div>
                   </CardDetails>
                 </Card>
@@ -519,7 +530,7 @@ const CardDetails = styled.div`
   .genre {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     p {
       font-size: 14px;
       margin: 0 10px 0 0;

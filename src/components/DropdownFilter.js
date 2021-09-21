@@ -1,16 +1,21 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-// Components
-import Filter from "./Filter";
-
-const DropdownFilter = ({ windowSize, selectedOption, setSelectedOption }) => {
+const DropdownFilter = ({
+  windowSize,
+  selectedOption,
+  setSelectedOption,
+  setPage,
+  currentPage,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
 
   const selected = (e) => {
     setSelectedOption(e.target.innerText);
     setIsOpen((prev) => !prev);
+    // setPage(1);
   };
 
   return (
@@ -43,15 +48,16 @@ const DropdownFilter = ({ windowSize, selectedOption, setSelectedOption }) => {
             </DropDownHeader>
             {isOpen && (
               <DropdownList>
-                <ListItem onClick={(e) => selected(e)}>Popular</ListItem>
-                <ListItem onClick={(e) => selected(e)}>Release Date</ListItem>
-                <ListItem onClick={(e) => selected(e)}>Rating</ListItem>
+                <Link to={currentPage}>
+                  <ListItem onClick={(e) => selected(e)}>Popular</ListItem>
+                  <ListItem onClick={(e) => selected(e)}>Release Date</ListItem>
+                  <ListItem onClick={(e) => selected(e)}>Rating</ListItem>
+                </Link>
               </DropdownList>
             )}
           </Dropdown>
         </div>
       </Header>
-      {windowSize < 1850 && <Filter />}
     </>
   );
 };
@@ -68,7 +74,15 @@ const Header = styled.div`
   justify-content: space-between;
 
   @media (max-width: 709px) {
+    .label {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 420px) {
     display: block;
+
     h1 {
       text-align: left;
       margin-bottom: 30px;
@@ -92,7 +106,10 @@ const Header = styled.div`
     }
 
     @media (max-width: 709px) {
-      display: block !important;
+      align-items: center;
+      p {
+        margin-bottom: 0;
+      }
     }
   }
 `;
@@ -130,7 +147,7 @@ const DropDownHeader = styled.div`
   }
 
   @media (max-width: 709px) {
-    width: 250px;
+    width: 100%;
   }
 `;
 const DropdownList = styled.div`
@@ -146,8 +163,12 @@ const DropdownList = styled.div`
   user-select: none;
   cursor: pointer;
 
+  a {
+    text-decoration: none;
+  }
+
   @media (max-width: 709px) {
-    width: 250px;
+    width: 100%;
   }
 `;
 

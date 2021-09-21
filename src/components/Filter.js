@@ -4,7 +4,9 @@ import { useState } from "react";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
 const Filter = () => {
-  const [showGenre, setShowGenre] = useState(false);
+  const [showGenre, setShowGenre] = useState(
+    window.innerWidth <= 1850 ? false : true
+  );
 
   const genres = useSelector((state) => state.genres.genreList);
   return (
@@ -128,7 +130,6 @@ const Genre = styled(motion.div)`
       position: relative;
 
       &:hover input ~ .checkmark {
-        background-color: white;
       }
 
       input {

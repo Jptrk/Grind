@@ -29,3 +29,12 @@ h1 {
   font-size: 20px;
   color: white;
 }
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}

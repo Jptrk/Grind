@@ -1,62 +1,58 @@
 // import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // Components
 import DropdownFilter from "./DropdownFilter";
 import Filter from "./Filter";
-import Rating from "./Ratings";
-// Actions
-import { loadAllgames } from "../actions/FetchallgamesAction";
+import Pagination from "./Pagination";
+import Game from "./Game";
+//Actions
+import { setPage } from "../actions/ControlAction";
+import { setSelectedOption } from "../actions/ControlAction";
 
 const Games = () => {
+  const myRef = useRef(null);
   const dispatch = useDispatch();
+
+  //Global States
   const data = useSelector((state) => state.games.allGames);
-  const [selectedOption, setSelectedOption] = useState("Release Date");
+  const pageCount = useSelector((state) => state.games.pageCount);
+  const { page, selectedOption } = useSelector((state) => state.controls);
 
-  //Fetch Games
-  useEffect(() => {
-    dispatch(loadAllgames(1, selectedOption));
-  }, [dispatch]);
+  const setPageHandler = (page) => {
+    dispatch(setPage(page));
+  };
 
-  useEffect(() => {
-    dispatch(loadAllgames(1, selectedOption));
-  }, [selectedOption]);
+  const setSelectedOptionHandler = (selected) => {
+    dispatch(setSelectedOption(selected));
+  };
 
   return (
-    <Main>
+    <Main ref={myRef}>
       <DropdownFilter
         selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
+        setSelectedOption={setSelectedOptionHandler}
+        setPage={setPageHandler}
+        currentPage={`/page/${page}`}
       />
       <div className="filter-gamelist">
         <Filter />
 
         <GameList>
           {data.map((game) => (
-            <Game key={game.id}>
-              <img src={game.background_image} alt={game.name} />
-              <div className="details">
-                <p className="title">
-                  {game.name.substring(0, 40)}
-                  {game.name.length >= 40 && "..."}
-                </p>
-                <div className="genre">
-                  <p style={{ color: "rgba(255,255,255, 0.75" }}>
-                    Release Date:{" "}
-                    <span style={{ color: "rgba(255,255,255" }}>
-                      {game.released}
-                    </span>
-                  </p>
-                </div>
-                <div className="rating">
-                  <Rating game={game.rating} />
-                </div>
-              </div>
-            </Game>
+            <Game game={game} key={game.id} />
           ))}
         </GameList>
       </div>
+      {/* Needs Page count, page and setpage state, and ref  for auto scroll top*/}
+      <Pagination
+        data={pageCount}
+        setPage={setPageHandler}
+        page={page}
+        myRef={myRef}
+      />
     </Main>
   );
 };
@@ -118,45 +114,6 @@ const GameList = styled.div`
   }
   @media (max-width: 375px) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-`;
-
-const Game = styled.div`
-  background-color: #171717;
-  border: solid 1px #272727;
-  height: 360px;
-  overflow: hidden;
-  padding: 20px;
-  img {
-    height: 70%;
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .details {
-    padding: 20px 0;
-  }
-
-  .title {
-    font-family: Bahnschrift;
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  .genre {
-    font-family: Bahnschrift;
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 13px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    p {
-      margin-right: 10px;
-    }
-  }
-
-  @media (max-width: 1366px) {
   }
 `;
 

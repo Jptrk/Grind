@@ -2,12 +2,19 @@ import axios from "axios";
 import { allGamesURL, genreListURL } from "../api";
 
 export const loadAllgames = (page, sort) => async (dispatch) => {
+  dispatch({
+    type: "IS_LOADING",
+    payload: {
+      isLoading: true,
+    },
+  });
+
   let order = "";
   if (sort === "Release Date") {
     order = "released";
   }
   if (sort === "Popular") {
-    order = "popular";
+    order = "relevance";
   }
   if (sort === "Rating") {
     order = "rating";
@@ -23,6 +30,7 @@ export const loadAllgames = (page, sort) => async (dispatch) => {
     payload: {
       games: allGameList,
       genreList: genreList,
+      pageCount: gameData.data.count,
     },
   });
 };
