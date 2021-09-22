@@ -77,3 +77,8 @@ export const gameDetailsURL = (id) => {
 export const gamescreenshotsURL = (id) => {
   return `${base_url}/games/${id}/screenshots?${api_key}`;
 };
+
+// Get game video
+export const gamevideoURL = (id) => {
+  return `${base_url}/games/${id}/movies?${api_key}`;
+};

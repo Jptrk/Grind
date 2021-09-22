@@ -5,6 +5,7 @@ const initialState = {
   isLoading: true,
   gameDetails: [],
   screenshots: [],
+  video: [],
 };
 
 const gamesReducer = (state = initialState, action) => {
@@ -27,6 +28,12 @@ const gamesReducer = (state = initialState, action) => {
         ...state,
         gameDetails: action.payload.details,
         screenshots: action.payload.screenshots,
+        isLoading: false,
+      };
+    case "FETCH_VIDEO":
+      return {
+        ...state,
+        video: action.payload.video,
         isLoading: false,
       };
 

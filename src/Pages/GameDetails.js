@@ -10,6 +10,9 @@ import Ratings from "../components/Ratings";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import Fullscreen from "../components/Details/Fullscreen";
+import Video from "../components/Details/Video";
+import PlaySVG from "../Assets/Play.svg";
+
 // Actions
 import { loadDetails } from "../actions/gameDetailsAction";
 
@@ -27,6 +30,7 @@ const GameDetails = () => {
     active: false,
     image: null,
   });
+  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     dispatch(loadDetails(gameId));
@@ -58,11 +62,26 @@ const GameDetails = () => {
       <Nav />
       {data != null && !isLoading && (
         <Main>
-          <Video>
+          {showVideo && (
+            <Video
+              id={gameId}
+              setShowVideo={setShowVideo}
+              backgroundimage={data.background_image}
+            />
+          )}
+
+          <Vid>
             <div className="overlay">
               <img src={data.background_image} alt={data.background_image} />
             </div>
-          </Video>
+            <div className="play">
+              <img
+                src={PlaySVG}
+                alt={PlaySVG}
+                onClick={() => setShowVideo(true)}
+              />
+            </div>
+          </Vid>
           <Details>
             <div className="header">
               <div className="name">
@@ -190,6 +209,7 @@ const Main = styled.div`
   color: rgb(215, 215, 215);
   width: 1200px;
   margin: auto;
+  position: relative;
 
   @media (max-width: 1300px) {
     width: 100%;
@@ -202,7 +222,7 @@ const Main = styled.div`
   }
 `;
 
-const Video = styled.div`
+const Vid = styled.div`
   padding: 60px 0 0 0;
 
   .overlay {
@@ -219,6 +239,23 @@ const Video = styled.div`
         rgb(25, 25, 25, 0.95) 60%,
         rgb(25, 25, 25, 1) 70%
       );
+    }
+  }
+
+  .play {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translateX(-50%) translateY(260%);
+    img {
+      width: 90%;
+      height: 90%;
+      z-index: 100;
+      cursor: pointer;
+      transition: 200ms ease;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 
