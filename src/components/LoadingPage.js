@@ -19,7 +19,7 @@ const Main = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
 

@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import Nav from "../components/Nav";
 import Featured from "../components/Featured";
 import Games from "../components/Games";
-import Loading from "../components/LoadingPage";
 import Footer from "../components/Footer";
 //Actions
 import { loadFeatured } from "../actions/FeaturedAction";
