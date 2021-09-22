@@ -146,28 +146,30 @@ const GameDetails = () => {
               </div>
             </div>
 
-            <div className="gallery">
-              <div className="header">
-                <h1>Screenshots</h1>
+            {screenshots.length > 0 && (
+              <div className="gallery">
+                <div className="header">
+                  <h1>Screenshots</h1>
+                </div>
+                <div className="slider">
+                  {screenshots.map((game, key) => (
+                    <img
+                      className="screenshot"
+                      src={game.image}
+                      alt={game.id}
+                      key={game.id}
+                      onClick={() =>
+                        setFullscreen((prev) => ({
+                          ...prev,
+                          active: true,
+                          image: key,
+                        }))
+                      }
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="slider">
-                {screenshots.map((game, key) => (
-                  <img
-                    className="screenshot"
-                    src={game.image}
-                    alt={game.id}
-                    key={game.id}
-                    onClick={() =>
-                      setFullscreen((prev) => ({
-                        ...prev,
-                        active: true,
-                        image: key,
-                      }))
-                    }
-                  />
-                ))}
-              </div>
-            </div>
+            )}
           </Details>
           {fullScreen.active && (
             <Fullscreen
@@ -188,6 +190,16 @@ const Main = styled.div`
   color: rgb(215, 215, 215);
   width: 1200px;
   margin: auto;
+
+  @media (max-width: 1300px) {
+    width: 100%;
+    padding: 60px 40px;
+  }
+
+  @media (max-width: 425px) {
+    width: 100%;
+    padding: 60px 20px;
+  }
 `;
 
 const Video = styled.div`
@@ -215,12 +227,21 @@ const Video = styled.div`
     height: 550px;
     object-fit: cover;
   }
+
+  @media (max-width: 1300px) {
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
 `;
 
 const Details = styled.div`
   position: relative;
   top: -140px;
-  padding: 0 0 60px 0;
+  margin-bottom: -140px;
+  padding: 0 0 0px 0;
 
   font-family: Bahnschrift;
   font-weight: 300;
@@ -280,6 +301,21 @@ const Details = styled.div`
         font-weight: 400;
       }
     }
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .name {
+        margin-bottom: 20px;
+      }
+
+      .rating {
+        .date {
+          text-align: left;
+        }
+      }
+    }
   }
 
   .description {
@@ -299,6 +335,12 @@ const Details = styled.div`
         text-decoration: underline;
       }
     }
+
+    @media (max-width: 1300px) {
+      p {
+        padding-right: 0px;
+      }
+    }
   }
 
   .platforms,
@@ -313,6 +355,12 @@ const Details = styled.div`
     .content {
       width: 350px;
       line-height: 30px;
+    }
+
+    @media (max-width: 1300px) {
+      .content {
+        width: 100%;
+      }
     }
   }
 

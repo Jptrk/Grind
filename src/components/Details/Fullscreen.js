@@ -162,6 +162,26 @@ const Main = styled.div`
       margin: 50px;
     }
   }
+
+  @media (max-width: 1500px) {
+    .imageContainer {
+      img {
+        width: 90%;
+        height: auto;
+      }
+
+      button {
+        z-index: 100;
+        margin: -50px;
+      }
+    }
+
+    .close {
+      svg {
+        width: 90%;
+      }
+    }
+  }
 `;
 
 const Next = styled.button`

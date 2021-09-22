@@ -80,7 +80,7 @@ const Header = styled.div`
     }
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 500px) {
     display: block;
 
     h1 {
@@ -144,10 +144,6 @@ const DropDownHeader = styled.div`
 
   .opened {
     transform: rotate(90deg) !important;
-  }
-
-  @media (max-width: 709px) {
-    width: 100%;
   }
 `;
 const DropdownList = styled.div`

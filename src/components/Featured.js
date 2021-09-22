@@ -71,33 +71,33 @@ const Featured = ({ featuredGames }) => {
       setImageSize(window.innerWidth - 40);
     }
 
-    window.addEventListener("resize", windowResize);
+    // window.addEventListener("resize", windowResize);
 
-    interval.current = setInterval(() => {
-      setActive((prev) => prev + 1);
-    }, 5000);
+    // interval.current = setInterval(() => {
+    //   setActive((prev) => prev + 1);
+    // }, 5000);
 
     // Clean up
     return () => {
-      window.removeEventListener("resize", windowResize);
+      // window.removeEventListener("resize", windowResize);
       clearInterval(interval.current);
     };
   }, []);
 
   //   Handlers
-  const windowResize = () => {
-    if (window.innerWidth <= 1366) {
-      setImageSize(window.innerWidth - 250);
-    } else {
-      setImageSize(1200);
-    }
-    if (window.innerWidth <= 768) {
-      setImageSize(window.innerWidth - 80);
-    }
-    if (window.innerWidth <= 425) {
-      setImageSize(window.innerWidth - 40);
-    }
-  };
+  // const windowResize = () => {
+  //   if (window.innerWidth <= 1366) {
+  //     setImageSize(window.innerWidth - 250);
+  //   } else {
+  //     setImageSize(1200);
+  //   }
+  //   if (window.innerWidth <= 768) {
+  //     setImageSize(window.innerWidth - 80);
+  //   }
+  //   if (window.innerWidth <= 425) {
+  //     setImageSize(window.innerWidth - 40);
+  //   }
+  // };
 
   const nextImage = () => {
     if (active < featured.length + 1) {
