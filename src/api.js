@@ -43,13 +43,23 @@ export const popularGamesURL = () => {
 };
 
 // All games
-export const allGamesURL = (page, sort) => {
+export const allGamesURL = (page, sort, genres) => {
   if (sort === "released") {
-    const all_games = `ordering=-released&page_size=18&page=${page}`;
-    return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    if (genres === "") {
+      const all_games = `ordering=-released&page_size=18&page=${page}`;
+      return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    } else {
+      const all_games = `genres=${genres}&ordering=-released&page_size=18&page=${page}`;
+      return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    }
   } else {
-    const all_games = `ordering=-${sort}&page_size=18&page=${page}`;
-    return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    if (genres === "") {
+      const all_games = `ordering=-${sort}&page_size=18&page=${page}`;
+      return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    } else {
+      const all_games = `genres=${genres}&ordering=-${sort}&page_size=18&page=${page}`;
+      return `${base_url}/games?discover=true&${api_key}&${all_games}`;
+    }
   }
 };
 

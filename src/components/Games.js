@@ -11,14 +11,15 @@ import Game from "./Game";
 //Actions
 import { setPage } from "../actions/ControlAction";
 import { setSelectedOption } from "../actions/ControlAction";
+import GameListLoader from "./GameListLoader";
 
-const Games = () => {
+const Games = ({ data }) => {
   const myRef = useRef(null);
   const dispatch = useDispatch();
 
   //Global States
-  const data = useSelector((state) => state.games.allGames);
   const pageCount = useSelector((state) => state.games.pageCount);
+  const { isLoading } = useSelector((state) => state.games);
   const { page, selectedOption } = useSelector((state) => state.controls);
 
   const setPageHandler = (page) => {
@@ -42,10 +43,15 @@ const Games = () => {
 
         <GameList>
           {data.map((game) => (
-            <Game game={game} key={game.id} />
+            <div key={game.id}>
+              {!isLoading && <Game game={game} />}
+
+              {isLoading && <GameListLoader />}
+            </div>
           ))}
         </GameList>
       </div>
+
       {/* Needs Page count, page and setpage state, and ref  for auto scroll top*/}
       <Pagination
         data={pageCount}

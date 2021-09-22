@@ -25,8 +25,15 @@ const Home = () => {
     : 1;
 
   //Global States
-  const { isLoading, featuredGames } = useSelector((state) => state.games);
-  const { selectedOption } = useSelector((state) => state.controls);
+  const { featuredGames } = useSelector((state) => state.games);
+  const { selectedOption, genres } = useSelector((state) => state.controls);
+  const data = useSelector((state) => state.games.allGames);
+
+  const genreList = genres
+    .map((item) => {
+      return item;
+    })
+    .join(",");
 
   useEffect(() => {
     if (featuredGames.length <= 0) {
@@ -39,15 +46,14 @@ const Home = () => {
   }, [location.pathname, loadDispatch, currentPage]);
 
   useEffect(() => {
-    dispatch(loadAllgames(currentPage, selectedOption));
-  }, [dispatch, selectedOption, currentPage]);
+    dispatch(loadAllgames(currentPage, selectedOption, genreList));
+  }, [dispatch, selectedOption, currentPage, genreList]);
 
   return (
     <Main>
-      {isLoading && <Loading />}
       <Nav />
       <Featured featuredGames={featuredGames} />
-      <Games />
+      <Games data={data} />
       <Footer />
     </Main>
   );

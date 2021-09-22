@@ -1,7 +1,7 @@
 import axios from "axios";
 import { allGamesURL, genreListURL } from "../api";
 
-export const loadAllgames = (page, sort) => async (dispatch) => {
+export const loadAllgames = (page, sort, genre) => async (dispatch) => {
   dispatch({
     type: "IS_LOADING",
     payload: {
@@ -20,8 +20,13 @@ export const loadAllgames = (page, sort) => async (dispatch) => {
     order = "rating";
   }
 
+  let genres = genre;
+  if (genre === undefined || genre === "" || genre === null) {
+    genres = "";
+  }
+
   // Fetch
-  const gameData = await axios.get(allGamesURL(page, order));
+  const gameData = await axios.get(allGamesURL(page, order, genres));
   const allGameList = gameData.data.results;
   const genreList = await axios.get(genreListURL());
 

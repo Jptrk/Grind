@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
+
+// Actions
+import { filterGenre, clearGenre } from "../actions/FilterGenreAction";
+import { useEffect } from "react";
 
 const Filter = () => {
   const [showGenre, setShowGenre] = useState(
@@ -9,6 +13,17 @@ const Filter = () => {
   );
 
   const genres = useSelector((state) => state.genres.genreList);
+  const dispatch = useDispatch();
+  const dispatchClear = useDispatch();
+  const selectedGenre = useSelector((state) => state.controls.genres);
+
+  // Handlers
+  const selectedHandler = (e, select) => {
+    dispatch(filterGenre(e.target.checked, select));
+  };
+
+  useEffect(() => {}, [selectedGenre]);
+
   return (
     <Main>
       <div className="genre-main">
@@ -58,14 +73,28 @@ const Filter = () => {
                     {genres.map((genre) => (
                       <li key={genre.id}>
                         <label>
-                          <input type="checkbox" value={genre.name} />
+                          <input
+                            type="checkbox"
+                            value={genre.name}
+                            onChange={(e) => {
+                              selectedHandler(e, genre.slug);
+                            }}
+                            checked={
+                              selectedGenre.includes(genre.slug) ? true : false
+                            }
+                          />
                           <span className="checkmark"></span>
                           <p>{genre.name}</p>
                         </label>
                       </li>
                     ))}
                   </motion.ul>
-                  <p className="reset">Reset</p>
+                  <p
+                    className="reset"
+                    onClick={() => dispatchClear(clearGenre())}
+                  >
+                    Reset
+                  </p>
                 </>
               )}
             </AnimatePresence>
