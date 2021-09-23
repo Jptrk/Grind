@@ -26,6 +26,7 @@ function App() {
     <div className="App">
       {firstTime === true && <Loading />}
       <Nav />
+
       <Switch location={location} key={location.pathname}>
         <Route path="/" exact>
           <Home />

@@ -1,7 +1,7 @@
 // Base URL
 const base_url = "https://api.rawg.io/api";
 const api_key = `key=${process.env.REACT_APP_API_KEY}`;
-//https://api.rawg.io/api/games/lists/main?discover=true&key=7892a49110284f67962c1d2e8bbfabc7&dates=2010-01-01,2021-20-09&ordering=-released&page=8&page_size=18
+//6735a05126134edfabc2f76eeada4681
 
 //Getting the date
 // const getCurrentMonth = () => {

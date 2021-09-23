@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
+import { motion, AnimateSharedLayout } from "framer-motion";
 
 // Actions
 import { filterGenre, clearGenre } from "../actions/FilterGenreAction";
@@ -67,40 +67,37 @@ const Filter = ({ genre }) => {
                   </g>
                 </svg>
               </motion.div>
-              <AnimatePresence>
-                {showGenre && (
-                  <>
-                    <motion.ul layout>
-                      {genres.map((genre) => (
-                        <li key={genre.id}>
-                          <label>
-                            <input
-                              type="checkbox"
-                              value={genre.name}
-                              onChange={(e) => {
-                                selectedHandler(e, genre.slug);
-                              }}
-                              checked={
-                                selectedGenre.includes(genre.slug)
-                                  ? true
-                                  : false
-                              }
-                            />
-                            <span className="checkmark"></span>
-                            <p>{genre.name}</p>
-                          </label>
-                        </li>
-                      ))}
-                    </motion.ul>
-                    <p
-                      className="reset"
-                      onClick={() => dispatchClear(clearGenre())}
-                    >
-                      Reset
-                    </p>
-                  </>
-                )}
-              </AnimatePresence>
+
+              {showGenre && (
+                <>
+                  <motion.ul layout>
+                    {genres.map((genre) => (
+                      <li key={genre.id}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={genre.name}
+                            onChange={(e) => {
+                              selectedHandler(e, genre.slug);
+                            }}
+                            checked={
+                              selectedGenre.includes(genre.slug) ? true : false
+                            }
+                          />
+                          <span className="checkmark"></span>
+                          <p>{genre.name}</p>
+                        </label>
+                      </li>
+                    ))}
+                  </motion.ul>
+                  <p
+                    className="reset"
+                    onClick={() => dispatchClear(clearGenre())}
+                  >
+                    Reset
+                  </p>
+                </>
+              )}
             </Genre>
           </AnimateSharedLayout>
         </div>
@@ -113,6 +110,7 @@ const Main = styled(motion.div)`
   width: 250px;
   padding: 40px 0 0 0;
   grid-column-end: span 1;
+  position: relative;
 
   .genre-main {
     border: solid 1px #272727;

@@ -543,6 +543,13 @@ const CardDetails = styled.div`
       opacity: 1;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 15px 15px;
+    h1 {
+      font-size: 16px;
+    }
+  }
 `;
 
 const Card = styled.div`
