@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const Pagination = ({ data, setPage, page, myRef }) => {
+const Pagination = ({ data, setPage, page, myRef, url }) => {
   const dataCount = data;
   const pageCount = Math.round(dataCount / 18);
 
@@ -11,7 +11,7 @@ const Pagination = ({ data, setPage, page, myRef }) => {
     const pageList = [];
     for (let i = countStart(); i < countEnd(); i++) {
       pageList.push(
-        <Link to={`/page/${i + 1}`} key={i + 1}>
+        <Link to={`${url}page/${i + 1}`} key={i + 1}>
           <motion.li
             className={page === i + 1 ? "active" : ""}
             onClick={() => pageHandler(i)}
@@ -25,7 +25,11 @@ const Pagination = ({ data, setPage, page, myRef }) => {
     return pageList;
   };
 
-  const executeScroll = () => myRef.current.scrollIntoView();
+  const executeScroll = () =>
+    myRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
 
   // Dont change
   const countStart = () => {
@@ -93,7 +97,7 @@ const Pagination = ({ data, setPage, page, myRef }) => {
             <>
               <ul>
                 {page > 1 && (
-                  <Link to={`/page/${page - 1}`}>
+                  <Link to={`${url}page/${page - 1}`}>
                     <li onClick={prevButtonHandler} className="prev">
                       Prev
                     </li>
@@ -101,7 +105,7 @@ const Pagination = ({ data, setPage, page, myRef }) => {
                 )}
                 {page >= 5 && (
                   <>
-                    <Link to={`/page/${1}`}>
+                    <Link to={`${url}page/${1}`}>
                       <li
                         onClick={() => {
                           executeScroll();
@@ -120,7 +124,7 @@ const Pagination = ({ data, setPage, page, myRef }) => {
                   <>
                     <p>...</p>
 
-                    <Link to={`/page/${pageCount}`}>
+                    <Link to={`${url}page/${pageCount}`}>
                       <li
                         onClick={() => {
                           executeScroll();
@@ -133,7 +137,7 @@ const Pagination = ({ data, setPage, page, myRef }) => {
                   </>
                 )}
                 {page < pageCount && (
-                  <Link to={`/page/${page + 1}`}>
+                  <Link to={`${url}page/${page + 1}`}>
                     <li onClick={nextButtonHandler} className="prev">
                       Next
                     </li>
@@ -160,6 +164,7 @@ const Page = styled.div`
   ul a {
     text-decoration: none;
     color: white;
+    margin: 0 15px;
   }
 
   ul p {
@@ -176,7 +181,6 @@ const Page = styled.div`
     width: 50px;
     height: 50px;
 
-    margin: 0 15px;
     user-select: none;
     cursor: pointer;
     display: flex;
@@ -207,6 +211,9 @@ const Page = styled.div`
     }
     li {
       font-size: 13px;
+    }
+
+    a {
       margin: 5px 5px;
     }
   }

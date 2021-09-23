@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useLocation } from "react-router";
 
 const DropdownFilter = ({
-  windowSize,
   selectedOption,
   setSelectedOption,
-  setPage,
   currentPage,
+  sort,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
@@ -17,46 +17,54 @@ const DropdownFilter = ({
     setIsOpen((prev) => !prev);
     // setPage(1);
   };
+  const location = useLocation();
 
   return (
     <>
+      {!sort && <br />}
       <Header className="header">
         <div>
-          <h1>ALL GAMES</h1>
+          {!location.pathname.includes("new") && <h1>ALL GAMES</h1>}
+          {location.pathname.includes("new") && <h1>NEW GAMES</h1>}
+          {location.pathname.includes("upcoming") && <h1>UPCOMING GAMES</h1>}
         </div>
-        <div className="sort">
-          <p className="label">Sort by:</p>
-          <Dropdown>
-            <DropDownHeader onClick={toggling}>
-              <p>{selectedOption}</p>
-              <span>
-                <svg
-                  className={isOpen ? "arrow opened" : "arrow"}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="8.773"
-                  height="15.468"
-                  viewBox="0 0 8.773 15.468"
-                >
-                  <path
-                    id="Path_3"
-                    data-name="Path 3"
-                    d="M.238,8.338l6.646,6.883a.8.8,0,0,0,1.155,0l.489-.507a.869.869,0,0,0,0-1.2l-5.58-5.78L8.535,1.951a.87.87,0,0,0,0-1.2L8.045.247a.8.8,0,0,0-1.155,0L.238,7.137a.876.876,0,0,0,0,1.2Z"
-                    fill="#ff003b"
-                  />
-                </svg>
-              </span>
-            </DropDownHeader>
-            {isOpen && (
-              <DropdownList>
-                <Link to={currentPage}>
-                  <ListItem onClick={(e) => selected(e)}>Popular</ListItem>
-                  <ListItem onClick={(e) => selected(e)}>Release Date</ListItem>
-                  <ListItem onClick={(e) => selected(e)}>Rating</ListItem>
-                </Link>
-              </DropdownList>
-            )}
-          </Dropdown>
-        </div>
+        {sort && (
+          <div className="sort">
+            <p className="label">Sort by:</p>
+            <Dropdown>
+              <DropDownHeader onClick={toggling}>
+                <p>{selectedOption}</p>
+                <span>
+                  <svg
+                    className={isOpen ? "arrow opened" : "arrow"}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="8.773"
+                    height="15.468"
+                    viewBox="0 0 8.773 15.468"
+                  >
+                    <path
+                      id="Path_3"
+                      data-name="Path 3"
+                      d="M.238,8.338l6.646,6.883a.8.8,0,0,0,1.155,0l.489-.507a.869.869,0,0,0,0-1.2l-5.58-5.78L8.535,1.951a.87.87,0,0,0,0-1.2L8.045.247a.8.8,0,0,0-1.155,0L.238,7.137a.876.876,0,0,0,0,1.2Z"
+                      fill="#ff003b"
+                    />
+                  </svg>
+                </span>
+              </DropDownHeader>
+              {isOpen && (
+                <DropdownList>
+                  <Link to={currentPage}>
+                    <ListItem onClick={(e) => selected(e)}>Popular</ListItem>
+                    <ListItem onClick={(e) => selected(e)}>
+                      Release Date
+                    </ListItem>
+                    <ListItem onClick={(e) => selected(e)}>Rating</ListItem>
+                  </Link>
+                </DropdownList>
+              )}
+            </Dropdown>
+          </div>
+        )}
       </Header>
     </>
   );

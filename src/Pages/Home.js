@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 //Components
-import Nav from "../components/Nav";
+
 import Featured from "../components/Featured";
 import Games from "../components/Games";
 import Footer from "../components/Footer";
@@ -50,15 +50,15 @@ const Home = () => {
 
   return (
     <Main>
-      <Nav />
       <Featured featuredGames={featuredGames} />
-      <Games data={data} />
+      <Games data={data} url={"/"} sort={true} genre={true} />
       <Footer />
     </Main>
   );
 };
 
 const Main = styled.div`
+  position: relative;
   padding-top: 60px;
 `;
 

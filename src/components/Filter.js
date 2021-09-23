@@ -7,7 +7,7 @@ import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { filterGenre, clearGenre } from "../actions/FilterGenreAction";
 import { useEffect } from "react";
 
-const Filter = () => {
+const Filter = ({ genre }) => {
   const [showGenre, setShowGenre] = useState(
     window.innerWidth <= 1850 ? false : true
   );
@@ -26,83 +26,85 @@ const Filter = () => {
 
   return (
     <Main>
-      <div className="genre-main">
-        <AnimateSharedLayout>
-          <Genre layout>
-            <motion.div
-              layout
-              className={!showGenre ? "toggle margin-none" : "toggle"}
-              onClick={() => setShowGenre((prev) => !prev)}
-            >
-              <h1>Genre</h1>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
+      {genre && (
+        <div className="genre-main">
+          <AnimateSharedLayout>
+            <Genre layout>
+              <motion.div
+                layout
+                className={!showGenre ? "toggle margin-none" : "toggle"}
+                onClick={() => setShowGenre((prev) => !prev)}
               >
-                <g id="Cross" transform="translate(-1633.5 -1186.5)">
-                  <motion.line
-                    id="Line_9"
-                    data-name="Line 9"
-                    x2="30"
-                    transform="translate(1633.5 1201.5)"
-                    fill="none"
-                    stroke="#ff003b"
-                    strokeWidth="5"
-                  />
-
-                  {!showGenre && (
+                <h1>Genre</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                >
+                  <g id="Cross" transform="translate(-1633.5 -1186.5)">
                     <motion.line
-                      id="Line_10"
-                      data-name="Line 10"
+                      id="Line_9"
+                      data-name="Line 9"
                       x2="30"
-                      transform="translate(1648.5 1186.5) rotate(90)"
+                      transform="translate(1633.5 1201.5)"
                       fill="none"
                       stroke="#ff003b"
                       strokeWidth="5"
                     />
-                  )}
-                </g>
-              </svg>
-            </motion.div>
-            <AnimatePresence>
-              {showGenre && (
-                <>
-                  <motion.ul layout>
-                    {genres.map((genre) => (
-                      <li key={genre.id}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            value={genre.name}
-                            onChange={(e) => {
-                              selectedHandler(e, genre.slug);
-                            }}
-                            checked={
-                              selectedGenre.includes(genre.slug) ? true : false
-                            }
-                          />
-                          <span className="checkmark"></span>
-                          <p>{genre.name}</p>
-                        </label>
-                      </li>
-                    ))}
-                  </motion.ul>
-                  <p
-                    className="reset"
-                    onClick={() => dispatchClear(clearGenre())}
-                  >
-                    Reset
-                  </p>
-                </>
-              )}
-            </AnimatePresence>
-          </Genre>
-        </AnimateSharedLayout>
-      </div>
 
-      <Platforms></Platforms>
+                    {!showGenre && (
+                      <motion.line
+                        id="Line_10"
+                        data-name="Line 10"
+                        x2="30"
+                        transform="translate(1648.5 1186.5) rotate(90)"
+                        fill="none"
+                        stroke="#ff003b"
+                        strokeWidth="5"
+                      />
+                    )}
+                  </g>
+                </svg>
+              </motion.div>
+              <AnimatePresence>
+                {showGenre && (
+                  <>
+                    <motion.ul layout>
+                      {genres.map((genre) => (
+                        <li key={genre.id}>
+                          <label>
+                            <input
+                              type="checkbox"
+                              value={genre.name}
+                              onChange={(e) => {
+                                selectedHandler(e, genre.slug);
+                              }}
+                              checked={
+                                selectedGenre.includes(genre.slug)
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <span className="checkmark"></span>
+                            <p>{genre.name}</p>
+                          </label>
+                        </li>
+                      ))}
+                    </motion.ul>
+                    <p
+                      className="reset"
+                      onClick={() => dispatchClear(clearGenre())}
+                    >
+                      Reset
+                    </p>
+                  </>
+                )}
+              </AnimatePresence>
+            </Genre>
+          </AnimateSharedLayout>
+        </div>
+      )}
     </Main>
   );
 };
@@ -191,6 +193,5 @@ const Genre = styled(motion.div)`
     }
   }
 `;
-const Platforms = styled.div``;
 
 export default Filter;

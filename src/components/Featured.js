@@ -369,7 +369,7 @@ const Main = styled.div`
   border-bottom: 1px solid #1d1d1d;
   h1 {
     width: 1200px;
-    margin: auto auto 20px auto;
+    margin: auto auto 40px auto;
 
     @media (max-width: 1366px) {
       padding: 0 40px;

@@ -3,14 +3,22 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion, AnimateSharedLayout } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
+import { useEffect } from "react";
 
 const Nav = () => {
   const [searchToggle, setSerachToggle] = useState(false);
-
+  const [active, setActive] = useState("");
   const variants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
   };
+  const location = useLocation();
+  const page = location.pathname.split("/")[1];
+
+  useEffect(() => {
+    setActive(page);
+  }, [page]);
 
   return (
     <Header>
@@ -112,13 +120,36 @@ const Nav = () => {
               initial="hidden"
               animate="visible"
             >
-              <li className="active">
-                <Link to="/">ALL GAMES</Link>
+              <li
+                className={
+                  location.pathname === "/" || active.includes("page")
+                    ? "active"
+                    : ""
+                }
+              >
+                <Link onClick={() => setActive("")} to="/">
+                  ALL GAMES
+                </Link>
               </li>
 
-              <li>NEW AND FEATURED</li>
-              <li>UPCOMING GAMES</li>
-              <li>PLATFORMS</li>
+              <li className={active === "new" ? "active" : ""}>
+                <Link onClick={() => setActive("new")} to="/new">
+                  NEW AND FEATURED
+                </Link>
+              </li>
+
+              <li
+                className={active === "upcoming" ? "active" : ""}
+                onClick={() => setActive("upcoming")}
+              >
+                UPCOMING GAMES
+              </li>
+              <li
+                className={active === "platforms" ? "active" : ""}
+                onClick={() => setActive("platforms")}
+              >
+                PLATFORMS
+              </li>
             </motion.ul>
 
             <Search variants={variants} initial="hidden" animate="visible">
@@ -239,6 +270,21 @@ const Links = styled.div`
 
       &:last-of-type {
         margin-right: 0;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &::after {
+        content: "";
+        height: 2px;
+        width: 0%;
+        background-color: #ff003b;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transition: 500ms ease;
       }
     }
 

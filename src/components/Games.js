@@ -13,7 +13,7 @@ import { setPage } from "../actions/ControlAction";
 import { setSelectedOption } from "../actions/ControlAction";
 import GameListLoader from "./GameListLoader";
 
-const Games = ({ data }) => {
+const Games = ({ data, url, sort, genre }) => {
   const myRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -30,6 +30,15 @@ const Games = ({ data }) => {
     dispatch(setSelectedOption(selected));
   };
 
+  const renderPlaceHolder = () => {
+    const components = [];
+    for (let i = 0; i < 18; i++) {
+      components.push(<GameListLoader key={i} />);
+    }
+
+    return components;
+  };
+
   return (
     <Main ref={myRef}>
       <DropdownFilter
@@ -37,23 +46,26 @@ const Games = ({ data }) => {
         setSelectedOption={setSelectedOptionHandler}
         setPage={setPageHandler}
         currentPage={`/page/${page}`}
+        sort={sort}
       />
+
       <div className="filter-gamelist">
-        <Filter />
+        <Filter genre={genre} />
 
         <GameList>
-          {data.map((game) => (
-            <div key={game.id}>
-              {!isLoading && <Game game={game} />}
-
-              {isLoading && <GameListLoader />}
-            </div>
-          ))}
+          {!isLoading &&
+            data.map((game) => (
+              <div key={game.id} className="card">
+                <Game game={game} />
+              </div>
+            ))}
+          {isLoading && renderPlaceHolder()}
         </GameList>
       </div>
 
       {/* Needs Page count, page and setpage state, and ref  for auto scroll top*/}
       <Pagination
+        url={url}
         data={pageCount}
         setPage={setPageHandler}
         page={page}
@@ -80,10 +92,12 @@ const Main = styled.div`
     display: grid;
     margin-left: -280px;
     grid-template-columns: 280px 1200px;
+
     @media (max-width: 1850px) {
       grid-template-columns: 1200px;
       margin-left: 0;
     }
+
     @media (max-width: 1366px) {
       display: block;
       width: 100%;

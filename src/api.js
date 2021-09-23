@@ -82,3 +82,8 @@ export const gamescreenshotsURL = (id) => {
 export const gamevideoURL = (id) => {
   return `${base_url}/games/${id}/movies?${api_key}`;
 };
+
+// Get new games
+export const newgamesURL = (page, genre) => {
+  return `${base_url}/games/lists/recent-games-past?discover=true&${api_key}&genres=${genre}&ordering=-added&page=${page}&page_size=18`;
+};

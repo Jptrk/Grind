@@ -3,28 +3,42 @@ import styled from "styled-components";
 function Footer() {
   return (
     <Main>
-      <p>Grind © 2021. All Rights Reserved.</p>
+      <div>
+        <p>Grind © 2021. All Rights Reserved.</p>
+      </div>
+      <div>
+        <p>
+          Check out <a href="rawg.io">Rawg.io</a> for more.
+        </p>
+      </div>
     </Main>
   );
 }
 
 const Main = styled.div`
   background-color: #171717;
-  height: 60px;
+  border-top: solid 1px #272727;
+
   display: flex;
   align-items: center;
-  padding: 0 60px;
-  border-top: solid 1px #272727;
+  justify-content: space-around;
+  flex-direction: column;
+
+  padding: 15px 60px;
+  margin-top: auto;
+
   p {
-    width: 1200px;
-    margin: auto;
+    margin: 5px auto;
     color: white;
     font-family: Bahnschrift;
     font-size: 13px;
   }
 
   @media (max-width: 1366px) {
-    padding: 0 40px;
+    p {
+      width: 100%;
+    }
+    padding: 0 5px;
   }
 
   @media (max-width: 425px) {

@@ -9,6 +9,12 @@ const genresReducer = (state = initialState, action) => {
         ...state,
         genreList: action.payload.genreList.data.results,
       };
+
+    case "FETCH_NEWGAMES":
+      return {
+        ...state,
+        genreList: action.payload.genreList.data.results,
+      };
     default:
       return { ...state };
   }

@@ -6,6 +6,7 @@ const initialState = {
   gameDetails: [],
   screenshots: [],
   video: [],
+  newGames: [],
 };
 
 const gamesReducer = (state = initialState, action) => {
@@ -36,7 +37,13 @@ const gamesReducer = (state = initialState, action) => {
         video: action.payload.video,
         isLoading: false,
       };
-
+    case "FETCH_NEWGAMES":
+      return {
+        ...state,
+        newGames: action.payload.newGames,
+        pageCount: action.payload.pageCount,
+        isLoading: false,
+      };
     case "IS_LOADING":
       return { ...state, isLoading: action.payload.isLoading };
     default:
