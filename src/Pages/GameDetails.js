@@ -143,7 +143,7 @@ const GameDetails = () => {
               <div className="header">
                 <h1>Platforms</h1>
               </div>
-              <div className="content">
+              <div className="info">
                 {data.platforms
                   .map(({ platform }) => {
                     return platform.name;
@@ -156,7 +156,7 @@ const GameDetails = () => {
               <div className="header">
                 <h1>Genre</h1>
               </div>
-              <div className="content">
+              <div className="info">
                 {data.genres
                   .map(({ name }) => {
                     return name;
@@ -389,14 +389,13 @@ const Details = styled.div`
     .header h1 {
       /* color: rgba(255, 255, 255, 0.5); */
     }
-    .content {
-      max-height: 100% !important;
+    .info {
       width: 350px;
       line-height: 30px;
     }
 
     @media (max-width: 1300px) {
-      .content {
+      .info {
         width: 100%;
       }
     }
