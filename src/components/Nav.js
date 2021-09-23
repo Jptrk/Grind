@@ -289,6 +289,7 @@ const Links = styled.div`
     }
 
     .active {
+      background-color: transparent !important;
       &::after {
         content: "";
         height: 2px;
