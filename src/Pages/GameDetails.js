@@ -390,6 +390,7 @@ const Details = styled.div`
       /* color: rgba(255, 255, 255, 0.5); */
     }
     .content {
+      max-height: 100% !important;
       width: 350px;
       line-height: 30px;
     }
