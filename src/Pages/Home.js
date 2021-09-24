@@ -17,6 +17,7 @@ import { setPage } from "../actions/ControlAction";
 const Home = () => {
   const dispatch = useDispatch();
   const loadDispatch = useDispatch();
+
   const location = useLocation();
 
   const currentPage = location.pathname.includes("/page/")

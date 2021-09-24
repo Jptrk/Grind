@@ -1,7 +1,7 @@
 import axios from "axios";
-import { genreListURL, newgamesURL } from "../api";
+import { newgamesURL } from "../api";
 
-export const loadNewGames = (page) => async (dispatch) => {
+export const loadNewGames = (page, genre) => async (dispatch) => {
   dispatch({
     type: "IS_LOADING",
     payload: {
@@ -9,15 +9,13 @@ export const loadNewGames = (page) => async (dispatch) => {
     },
   });
 
-  const newGames = await axios.get(newgamesURL(page));
-  const genreList = await axios.get(genreListURL());
+  const newGames = await axios.get(newgamesURL(page, genre));
 
   dispatch({
     type: "FETCH_NEWGAMES",
     payload: {
       newGames: newGames.data.results,
       pageCount: newGames.data.count,
-      genreList: genreList,
     },
   });
 };

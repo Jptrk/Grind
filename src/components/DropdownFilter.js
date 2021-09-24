@@ -24,8 +24,18 @@ const DropdownFilter = ({
       {!sort && <br />}
       <Header className="header">
         <div>
-          {!location.pathname.includes("new") && <h1>ALL GAMES</h1>}
-          {location.pathname.includes("new") && <h1>NEW GAMES</h1>}
+          {!location.pathname.includes("new") &&
+          !location.pathname.includes("upcoming") ? (
+            <h1>ALL GAMES</h1>
+          ) : (
+            ""
+          )}
+          {!location.pathname.includes("upcoming") &&
+          location.pathname.includes("new") ? (
+            <h1>NEW GAMES</h1>
+          ) : (
+            ""
+          )}
           {location.pathname.includes("upcoming") && <h1>UPCOMING GAMES</h1>}
         </div>
         {sort && (
@@ -93,7 +103,6 @@ const Header = styled.div`
 
     h1 {
       text-align: left;
-      margin-bottom: 30px;
     }
 
     .label {
@@ -115,6 +124,7 @@ const Header = styled.div`
 
     @media (max-width: 709px) {
       align-items: center;
+      margin-top: 30px;
       p {
         margin-bottom: 0;
       }

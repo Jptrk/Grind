@@ -3,37 +3,38 @@ const base_url = "https://api.rawg.io/api";
 const api_key = `key=${process.env.REACT_APP_API_KEY}`;
 //6735a05126134edfabc2f76eeada4681
 
-//Getting the date
-// const getCurrentMonth = () => {
-//   const month = new Date().getMonth() + 1;
-//   if (month < 10) {
-//     return `0${month}`;
-//   } else {
-//     return month;
-//   }
-// };
+// Getting the date
+const getCurrentMonth = () => {
+  const month = new Date().getMonth() + 1;
+  if (month < 10) {
+    return `0${month}`;
+  } else {
+    return month;
+  }
+};
 
-// const getCurrentDay = () => {
-//   const day = new Date().getDate();
-//   if (day < 10) {
-//     return `0${day}`;
-//   } else {
-//     return day;
-//   }
-// };
+const getCurrentDay = () => {
+  const day = new Date().getDate();
+  if (day < 10) {
+    return `0${day}`;
+  } else {
+    return day;
+  }
+};
 
-//Current day/month/year
-// const currentYear = new Date().getFullYear();
-// const currentMonth = getCurrentMonth();
-// const currentDay = getCurrentDay();
+// Current day/month/year
+const currentYear = new Date().getFullYear();
+const currentMonth = getCurrentMonth();
+const currentDay = getCurrentDay();
 
 //Date Format
-// const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
 // const lastWeek = `${currentYear}-${currentMonth}-${
 //   currentDay - 7 <= 0 ? 1 : currentDay - 7
 // }`;
 
 // const lastYear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
+const upcomingYear = `${currentYear + 2}-12-31`;
 
 //Popular Games
 const popular_games = `ordering=-relevance&page_size=8&page=1`;
@@ -86,4 +87,18 @@ export const gamevideoURL = (id) => {
 // Get new games
 export const newgamesURL = (page, genre) => {
   return `${base_url}/games/lists/recent-games-past?discover=true&${api_key}&genres=${genre}&ordering=-added&page=${page}&page_size=18`;
+};
+
+// Get upcming games
+export const upcomingGamesURL = (page, genres) => {
+  if (genres.length <= 0) {
+    return `${base_url}/games?${api_key}&dates=${currentDate},${upcomingYear}&ordering=-released&page_size=18&page=${page}`;
+  } else {
+    return `${base_url}/games?${api_key}&dates=${currentDate},${upcomingYear}&ordering=-released&genres=${genres}&page_size=18&page=${page}`;
+  }
+};
+
+// Get searched games
+export const searchedGamesURL = (page, search) => {
+  return `${base_url}/games?${api_key}&ordering=-relevance&page_size=18&page=${page}&search_precise&search=${search}`;
 };

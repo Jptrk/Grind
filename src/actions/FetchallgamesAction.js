@@ -1,5 +1,5 @@
 import axios from "axios";
-import { allGamesURL, genreListURL } from "../api";
+import { allGamesURL, genreListURL, searchedGamesURL } from "../api";
 
 export const loadAllgames = (page, sort, genre) => async (dispatch) => {
   dispatch({
@@ -28,14 +28,40 @@ export const loadAllgames = (page, sort, genre) => async (dispatch) => {
   // Fetch
   const gameData = await axios.get(allGamesURL(page, order, genres));
   const allGameList = gameData.data.results;
-  const genreList = await axios.get(genreListURL());
 
   dispatch({
     type: "FETCH_ALL_GAMES",
     payload: {
       games: allGameList,
-      genreList: genreList,
       pageCount: gameData.data.count,
+    },
+  });
+};
+
+export const fetchGenre = () => async (dispatch) => {
+  const genreList = await axios.get(genreListURL());
+  dispatch({
+    type: "FETCH_GENRES",
+    payload: {
+      genreList: genreList,
+    },
+  });
+};
+
+export const fetchSearchedGames = (page, search) => async (dispatch) => {
+  dispatch({
+    type: "IS_LOADING",
+    payload: {
+      isLoading: true,
+    },
+  });
+
+  const searchedGames = await axios.get(searchedGamesURL(page, search));
+  dispatch({
+    type: "FETCH_SEARCHED_GAMES",
+    payload: {
+      searchedGames: searchedGames.data.results,
+      pageCount: searchedGames.data.count,
     },
   });
 };

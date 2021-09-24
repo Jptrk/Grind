@@ -25,7 +25,10 @@ const Filter = ({ genre }) => {
   useEffect(() => {}, [selectedGenre]);
 
   return (
-    <Main>
+    <Main
+      className="main"
+      style={!genre ? { padding: 0 } : { padding: "40px 0 0 0" }}
+    >
       {genre && (
         <div className="genre-main">
           <AnimateSharedLayout>
@@ -108,7 +111,7 @@ const Filter = ({ genre }) => {
 
 const Main = styled(motion.div)`
   width: 250px;
-  padding: 40px 0 0 0;
+  /* padding: 40px 0 0 0; */
   grid-column-end: span 1;
   position: relative;
 

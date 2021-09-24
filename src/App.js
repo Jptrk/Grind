@@ -4,23 +4,29 @@ import "./styles/global.css";
 import Home from "../src/Pages/Home.js";
 import GameDetails from "./Pages/GameDetails";
 import NewGames from "./Pages/NewGames";
+import UpcomingGames from "./Pages/UpcomingGames";
 // Library
 import { Route, Switch, useLocation } from "react-router";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 // Components
 import NotFound from "./Pages/NotFound";
 import Loading from "./components/LoadingPage";
 import Nav from "./components/Nav";
+// Action
+import { fetchGenre } from "./actions/FetchallgamesAction";
 
 function App() {
+  const dispatch = useDispatch();
   const [firstTime, setFirtTime] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
+    dispatch(fetchGenre());
     setTimeout(() => {
       setFirtTime(false);
     }, 3000);
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -42,6 +48,12 @@ function App() {
         </Route>
         <Route path={`/new/page/:id`}>
           <NewGames />
+        </Route>
+        <Route path={`/upcoming`}>
+          <UpcomingGames />
+        </Route>
+        <Route path={`/upcoming/page/:id`}>
+          <UpcomingGames />
         </Route>
         <Route path="*">
           <NotFound />

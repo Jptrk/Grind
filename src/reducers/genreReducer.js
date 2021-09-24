@@ -4,13 +4,7 @@ const initialState = {
 
 const genresReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "FETCH_ALL_GAMES":
-      return {
-        ...state,
-        genreList: action.payload.genreList.data.results,
-      };
-
-    case "FETCH_NEWGAMES":
+    case "FETCH_GENRES":
       return {
         ...state,
         genreList: action.payload.genreList.data.results,

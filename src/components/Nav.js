@@ -24,10 +24,10 @@ const Nav = () => {
 
   return (
     <>
-      <Header>
-        <AnimateSharedLayout>
+      <AnimateSharedLayout>
+        <Header>
           <Navigation>
-            <Logo>
+            <Logo layoutId="logo">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="89"
@@ -146,7 +146,9 @@ const Nav = () => {
                     className={active === "upcoming" ? "active" : ""}
                     onClick={() => setActive("upcoming")}
                   >
-                    UPCOMING GAMES
+                    <Link onClick={() => setActive("upcoming")} to="/upcoming">
+                      UPCOMING GAMES
+                    </Link>
                   </li>
                 </motion.ul>
               )}
@@ -229,18 +231,18 @@ const Nav = () => {
               </svg>
             </div>
           </Navigation>
-        </AnimateSharedLayout>
-      </Header>
-      {showMobile && (
-        <AnimatePresence>
-          <Mobilenav className="burger" setShowMobile={setShowMobile} />
-        </AnimatePresence>
-      )}
+        </Header>
+        {showMobile && (
+          <AnimatePresence>
+            <Mobilenav className="burger" setShowMobile={setShowMobile} />
+          </AnimatePresence>
+        )}
+      </AnimateSharedLayout>
     </>
   );
 };
 
-const Header = styled.div`
+const Header = styled(motion.div)`
   background-color: #171717;
   height: 60px;
   border-bottom: 1px solid #2d2d2d;

@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 
 function Mobilenav({ setShowMobile }) {
   return (
-    <Main layoutId="container">
-      <div className="close" onClick={() => setShowMobile(false)}>
+    <Main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ y: -500 }}
+      transition={{ type: "spring" }}
+    >
+      <motion.div className="close" onClick={() => setShowMobile(false)}>
         <svg
           id="Close"
           xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +43,7 @@ function Mobilenav({ setShowMobile }) {
             />
           </g>
         </svg>
-      </div>
+      </motion.div>
       <motion.div className="logo" layoutId="logo">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,14 +136,22 @@ function Mobilenav({ setShowMobile }) {
       <div className="links">
         <ul>
           <li>
-            <Link to="/">ALL GAMES</Link>
+            <Link to="/" onClick={() => setShowMobile(false)}>
+              ALL GAMES
+            </Link>
           </li>
 
           <li>
-            <Link to="/new">NEW AND FEATURED</Link>
+            <Link to="/new" onClick={() => setShowMobile(false)}>
+              NEW AND FEATURED
+            </Link>
           </li>
 
-          <li>UPCOMING GAMES</li>
+          <li>
+            <Link onClick={() => setShowMobile(false)} to="/upcoming">
+              UPCOMING GAMES
+            </Link>
+          </li>
         </ul>
       </div>
     </Main>

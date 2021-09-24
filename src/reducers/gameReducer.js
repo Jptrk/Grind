@@ -7,6 +7,8 @@ const initialState = {
   screenshots: [],
   video: [],
   newGames: [],
+  upcomingGames: [],
+  searchedGames: [],
 };
 
 const gamesReducer = (state = initialState, action) => {
@@ -41,6 +43,20 @@ const gamesReducer = (state = initialState, action) => {
       return {
         ...state,
         newGames: action.payload.newGames,
+        pageCount: action.payload.pageCount,
+        isLoading: false,
+      };
+    case "FETCH_UPCOMING_GAMES":
+      return {
+        ...state,
+        upcomingGames: action.payload.upcomingGames,
+        pageCount: action.payload.pageCount,
+        isLoading: false,
+      };
+    case "FETCH_SEARCHED_GAMES":
+      return {
+        ...state,
+        searchedGames: action.payload.searchedGames,
         pageCount: action.payload.pageCount,
         isLoading: false,
       };

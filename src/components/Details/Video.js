@@ -8,6 +8,7 @@ function Video({ setShowVideo, backgroundimage }) {
     <>
       {url.data !== undefined && (
         <Main>
+          <div className="overlay" onClick={() => setShowVideo(false)}></div>
           <div className="close" onClick={() => setShowVideo(false)}>
             <svg
               id="Close"
@@ -43,7 +44,7 @@ function Video({ setShowVideo, backgroundimage }) {
             </svg>
           </div>
           <Player>
-            <video controls>
+            <video controls autoPlay>
               <source src={url.data.max}></source>
             </video>
           </Player>
@@ -51,6 +52,7 @@ function Video({ setShowVideo, backgroundimage }) {
       )}
       {url.data === undefined && (
         <Main>
+          <div className="overlay" onClick={() => setShowVideo(false)}></div>
           <div className="close" onClick={() => setShowVideo(false)}>
             <svg
               id="Close"
@@ -101,7 +103,17 @@ const Main = styled.div`
   height: 100%;
   width: 100%;
   z-index: 300;
-  background-color: rgba(0, 0, 0, 0.7);
+
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
 
   .close {
     float: right;
@@ -110,6 +122,7 @@ const Main = styled.div`
     transition: 100ms ease;
     position: fixed;
     right: 0;
+    z-index: 1;
 
     &:hover {
       transform: scale(1.2);
@@ -136,7 +149,7 @@ const Player = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
+  z-index: 2;
   video,
   img {
     max-height: 100%;

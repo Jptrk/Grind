@@ -32,17 +32,13 @@ const Main = styled.div`
     color: white;
     font-family: Bahnschrift;
     font-size: 13px;
+    text-align: center;
   }
 
   @media (max-width: 1366px) {
     p {
       width: 100%;
     }
-    padding: 0 5px;
-  }
-
-  @media (max-width: 425px) {
-    padding: 0 20px;
   }
 `;
 

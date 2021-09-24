@@ -22,6 +22,10 @@ function Fullscreen({ images, setFullscreen, fullScreen }) {
   return (
     <Main>
       <div
+        className="overlay"
+        onClick={() => setFullscreen((prev) => ({ ...prev, active: false }))}
+      ></div>
+      <div
         className="close"
         onClick={() => setFullscreen((prev) => ({ ...prev, active: false }))}
       >
@@ -124,14 +128,24 @@ function Fullscreen({ images, setFullscreen, fullScreen }) {
 }
 
 const Main = styled.div`
-  background-color: rgba(0, 0, 0, 0.9);
   height: 100vh;
   width: 100%;
 
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 200;
+  z-index: 100;
+
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.9);
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
 
   .close {
     float: right;
@@ -140,6 +154,7 @@ const Main = styled.div`
     transition: 100ms ease;
     position: fixed;
     right: 0;
+    z-index: 2;
 
     &:hover {
       transform: scale(1.2);
@@ -154,12 +169,13 @@ const Main = styled.div`
 
     img {
       width: 1300px;
-
+      z-index: 2;
       object-fit: cover;
     }
 
     button {
       margin: 50px;
+      z-index: 2;
     }
   }
 
