@@ -26,7 +26,7 @@ const Search = () => {
     if (search === "" || search.length === 0) {
       history.push("/");
     }
-  }, []);
+  }, [history, search]);
 
   useEffect(() => {
     loadDispatch(setPage(currentPage));
