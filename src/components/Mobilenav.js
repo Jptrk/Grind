@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 function Mobilenav({ setShowMobile }) {
   return (
     <Main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ y: -500 }}
-      transition={{ type: "spring" }}
+      initial={{ y: "-100%" }}
+      animate={{ y: 0 }}
+      exit={{ y: "-100%" }}
+      transition={{ duration: 0.3 }}
     >
       <motion.div className="close" onClick={() => setShowMobile(false)}>
         <svg
@@ -44,7 +44,7 @@ function Mobilenav({ setShowMobile }) {
           </g>
         </svg>
       </motion.div>
-      <motion.div className="logo" layoutId="logo">
+      <motion.div className="logo">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
@@ -159,6 +159,7 @@ function Mobilenav({ setShowMobile }) {
 }
 
 const Main = styled(motion.div)`
+  user-select: none;
   position: fixed;
   left: 0;
   top: 0;

@@ -25,7 +25,8 @@ const DropdownFilter = ({
       <Header className="header">
         <div>
           {!location.pathname.includes("new") &&
-          !location.pathname.includes("upcoming") ? (
+          !location.pathname.includes("upcoming") &&
+          !location.pathname.includes("search") ? (
             <h1>ALL GAMES</h1>
           ) : (
             ""
@@ -37,6 +38,7 @@ const DropdownFilter = ({
             ""
           )}
           {location.pathname.includes("upcoming") && <h1>UPCOMING GAMES</h1>}
+          {location.pathname.includes("search") && <h1>SEARCH</h1>}
         </div>
         {sort && (
           <div className="sort">

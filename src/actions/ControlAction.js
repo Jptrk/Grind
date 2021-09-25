@@ -15,3 +15,12 @@ export const setSelectedOption = (selected) => (dispatch) => {
     },
   });
 };
+
+export const searchonChange = (input) => (dispatch) => {
+  dispatch({
+    type: "SEARCH_INPUT",
+    payload: {
+      search: input,
+    },
+  });
+};

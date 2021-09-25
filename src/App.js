@@ -5,6 +5,7 @@ import Home from "../src/Pages/Home.js";
 import GameDetails from "./Pages/GameDetails";
 import NewGames from "./Pages/NewGames";
 import UpcomingGames from "./Pages/UpcomingGames";
+import Search from "./Pages/Search";
 // Library
 import { Route, Switch, useLocation } from "react-router";
 import { useState, useEffect } from "react";
@@ -54,6 +55,12 @@ function App() {
         </Route>
         <Route path={`/upcoming/page/:id`}>
           <UpcomingGames />
+        </Route>
+        <Route path={`/search`}>
+          <Search />
+        </Route>
+        <Route path={`/search/page/:id`}>
+          <Search />
         </Route>
         <Route path="*">
           <NotFound />
