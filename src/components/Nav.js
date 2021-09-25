@@ -387,34 +387,15 @@ const Links = styled.div`
         left: 0;
       }
     }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   @media (max-width: 768px) {
-    display: none;
-    /* width: 80%;
-    height: 100%;
-    position: fixed;
-    right: 0;
-    top: 0;
-    background-color: #171717;
-    z-index: 100;
-    transform: translate(0, 0);
-
-    ul {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      width: 100%;
-      margin: 0;
-
-      li {
-        width: fit-content;
-        font-size: 24px;
-        padding: 50px 0 10px 0;
-        height: fit-content;
-      }
-    }*/
+    margin-left: auto;
+    margin-right: 40px;
   }
 `;
 
@@ -432,6 +413,10 @@ const Search = styled(motion.div)`
       border: solid 2px #ff003b;
       background-color: #171717;
       color: white;
+
+      @media (max-width: 768px) {
+        width: 150px !important;
+      }
     }
   }
 
@@ -445,10 +430,6 @@ const Search = styled(motion.div)`
     &:hover {
       transform: scale(1.2);
     }
-  }
-
-  @media (max-width: 768px) {
-    display: none;
   }
 `;
 
