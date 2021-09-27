@@ -1,5 +1,5 @@
 //Libraries
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -30,10 +30,18 @@ const Nav = () => {
   const dispatch = useDispatch();
   const searchDispatch = useDispatch();
   const history = useHistory();
+  const ref = useRef();
 
   useEffect(() => {
     setActive(page);
   }, [page]);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.focus();
+      setInput("");
+    }
+  }, [ref, searchToggle]);
 
   // Handlers
   const searchHandler = (e) => {
@@ -52,7 +60,7 @@ const Nav = () => {
         <Header>
           <Navigation>
             <Link to="/">
-              <Logo>
+              <Logo className={searchToggle ? "hideNav" : ""}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="89"
@@ -197,13 +205,16 @@ const Nav = () => {
                       onChange={(e) => {
                         setInput(e.target.value);
                       }}
+                      ref={ref}
                     />
                   </motion.form>
                 )}
 
                 <div
                   className="icon"
-                  onClick={() => setSerachToggle((prev) => !prev)}
+                  onClick={() => {
+                    setSerachToggle((prev) => !prev);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +233,7 @@ const Nav = () => {
               </Search>
             </Links>
             <div
-              className="burger"
+              className={searchToggle ? "burger hideNav" : "burger"}
               onClick={() => setShowMobile((prev) => !prev)}
             >
               <svg
@@ -314,6 +325,11 @@ const Navigation = styled.div`
       display: block;
     }
   }
+  @media (max-width: 500px) {
+    .hideNav {
+      display: none;
+    }
+  }
   @media (max-width: 425px) {
     padding: 0 20px 0 20px;
   }
@@ -395,7 +411,7 @@ const Links = styled.div`
 
   @media (max-width: 768px) {
     margin-left: auto;
-    margin-right: 40px;
+    margin-right: 30px;
   }
 `;
 
@@ -415,7 +431,7 @@ const Search = styled(motion.div)`
       color: white;
 
       @media (max-width: 768px) {
-        width: 150px !important;
+        width: 100% !important;
       }
     }
   }
