@@ -49,6 +49,7 @@ const Nav = () => {
     if (input !== "") {
       dispatch(fetchSearchedGames(1, input));
       searchDispatch(searchonChange(input));
+      setSerachToggle(false);
       setInput("");
       history.push("/search");
     }
