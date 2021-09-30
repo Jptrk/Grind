@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import Rating from "./Ratings";
 import { Link } from "react-router-dom";
 
+//Functions
+import { smallerImage } from "../Functions/functions";
+
 const Featured = ({ featuredGames }) => {
   // States
   const [featured, setFeatured] = useState([]);
@@ -200,7 +203,10 @@ const Featured = ({ featuredGames }) => {
               {/* Clone */}
               <Card>
                 <img
-                  src={featured[featured.length - 2].background_image}
+                  src={smallerImage(
+                    featured[featured.length - 2].background_image,
+                    1280
+                  )}
                   alt={featured[featured.length - 2].name}
                   className="inactive clone"
                   style={{ width: `${imageSize}px` }}
@@ -214,7 +220,10 @@ const Featured = ({ featuredGames }) => {
                 className={active === 0 ? "active clone" : "inactive clone"}
               >
                 <img
-                  src={featured[featured.length - 1].background_image}
+                  src={smallerImage(
+                    featured[featured.length - 1].background_image,
+                    1280
+                  )}
                   alt={featured[featured.length - 1].name}
                   style={{ width: `${imageSize}px` }}
                 />
@@ -230,7 +239,7 @@ const Featured = ({ featuredGames }) => {
                   className={game.active ? "active" : "inactive"}
                 >
                   <img
-                    src={game.background_image}
+                    src={smallerImage(game.background_image, 1280)}
                     alt={game.name}
                     style={{ width: `${imageSize}px` }}
                   />
@@ -264,7 +273,7 @@ const Featured = ({ featuredGames }) => {
                 }
               >
                 <img
-                  src={featured[0].background_image}
+                  src={smallerImage(featured[0].background_image, 1280)}
                   alt={featured[0].name}
                   style={{ width: `${imageSize}px` }}
                 />
@@ -274,7 +283,7 @@ const Featured = ({ featuredGames }) => {
               </Card>
               <Card>
                 <img
-                  src={featured[1].background_image}
+                  src={smallerImage(featured[1].background_image, 1280)}
                   alt={featured[1].name}
                   className="inactive clone"
                   style={{ width: `${imageSize}px` }}

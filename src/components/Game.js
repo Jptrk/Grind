@@ -4,34 +4,18 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 // Components
 import Rating from "./Ratings";
+//Functions
+import { smallerImage, releaseDate } from "../Functions/functions.js";
 
 const Game = ({ game }) => {
   const { isLoading } = useSelector((state) => state.games);
-  // Handlers
-  const releaseDate = (date) => {
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
-    const x = new Date(date);
-    return `${monthNames[x.getMonth()]} ${x.getDate()}, ${x.getFullYear()}`;
-  };
 
   return (
     <Card>
       <Link to={`/game/${game.id}`}>
-        {!isLoading && <img src={game.background_image} alt={game.name} />}
+        {!isLoading && (
+          <img src={smallerImage(game.background_image, 640)} alt={game.name} />
+        )}
       </Link>
       <div className="details">
         <div>

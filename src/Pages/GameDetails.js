@@ -16,6 +16,9 @@ import PlaySVG from "../Assets/Play.svg";
 // Actions
 import { loadDetails } from "../actions/gameDetailsAction";
 
+//Functions
+import { releaseDate } from "../Functions/functions";
+
 const GameDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -35,27 +38,6 @@ const GameDetails = () => {
   useEffect(() => {
     dispatch(loadDetails(gameId));
   }, [dispatch, gameId]);
-
-  // Handlers
-  const releaseDate = (date) => {
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
-    const x = new Date(date);
-    return `${monthNames[x.getMonth()]} ${x.getDate()}, ${x.getFullYear()}`;
-  };
 
   return (
     <>
